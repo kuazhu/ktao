@@ -1,0 +1,49 @@
+/*
+* @Author: TomChen
+* @Date:   2018-06-08 20:16:50
+* @Last Modified by:   TomChen
+* @Last Modified time: 2018-06-08 20:52:45
+*/
+/*顶部导航开始*/
+	.nav-site{
+		height: 44px;
+		background: #f3f5f7;
+	}
+	.nav-login{
+		color: #ea675a;
+	}
+	.nav-left li{
+		line-height: 44px;
+		margin-right: 10px;
+	}
+/*顶部导航结束*/
+/*头部开始*/
+	.header{
+		height: 100px;
+		background: yellow;
+	}
+/*头部结束*/
+/*主导航开始*/
+	.nav-main{
+		height: 50px;
+		background: orange;
+	}
+/*主导航结束*/
+/*主要内容开始*/
+	.focus{
+		height: 500px;
+		background: pink;
+	}
+/*主要内容结束*/
+/*今日热销开始*/
+	.todays{
+		height: 100px;
+		background: black;
+	}
+/*今日热销结束*/
+/*楼层开始*/
+	.floor{
+		height: 300px;
+		background: red;
+	}
+/*楼层结束*/
