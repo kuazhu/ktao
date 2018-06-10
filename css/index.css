@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:50
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-08 20:52:45
+* @Last Modified time: 2018-06-10 10:06:23
 */
 /*顶部导航开始*/
 	.nav-site{
@@ -16,6 +16,60 @@
 		line-height: 44px;
 		margin-right: 10px;
 	}
+
+	.nav-site .dropdown-toggle{
+		display: block;
+		height: 44px;
+		line-height: 44px;
+		padding: 0 10px;
+	}
+	.nav-site .dropdown-arrow{
+		margin-left: 5px;
+	}
+	.nav-site .dropdown-layer{
+		top:43px;
+		left:0px;
+		background: #fff;
+		border: 1px solid #f3f5f6;
+	}
+	.nav-site .menu-item{
+		/*width: 100px;*/
+		display: block;
+		line-height: 30px;
+		padding: 0 15px;
+		white-space: nowrap;
+	}
+	.nav-site .menu-item:hover{
+		background: #f3f5f6;
+	}
+
+	/*
+	CSS实现下拉显示,下一步转为用jQuery控制class来实现
+	.dropdown:hover .dropdown-layer{
+		display: block;
+	}
+	.dropdown:hover .dropdown-toggle{
+		background: #fff;
+		border-left: 1px solid #f3f5f6;
+		border-right: 1px solid #f3f5f6;
+	}
+	.dropdown:hover .dropdonw-arrow{
+		transform: rotate(180deg);
+		transition: all 0.5s;
+	}
+	*/
+	.menu-active .dropdown-layer{
+		display: block;
+	}
+	.menu-active .dropdown-toggle{
+		background: #fff;
+		border-left: 1px solid #f3f5f6;
+		border-right: 1px solid #f3f5f6;
+	}
+/*	.menu-active .dropdown-arrow{
+		transform: rotate(180deg);
+	}*/
+	
 /*顶部导航结束*/
 /*头部开始*/
 	.header{

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨淘网</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<style>
+		#box{
+			width: 200px;
+			height: 200px;
+			background: red;
+			display: none;
+		}
+	</style>
+</head>
+<body>
+<button>显示</button><button>隐藏</button>
+<div id='box'></div>
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script>
+	var slient = {
+		/*
+		show:function($elem){
+			$elem.html('<p>我要显示了</p>');
+			$elem.show();
+			$elem.html($elem.html()+'<p>我显示了</p>');
+		},
+		hide:function($elem){
+			$elem.hide();
+		}
+		*/
+		/*
+		show:function($elem,showCallBack,shownCallBack){
+			showCallBack();
+			$elem.show();
+			shownCallBack();
+		},
+		hide:function($elem){
+			$elem.hide();
+		}
+		*/
+		init:function($elem){
+			if($elem.is(':hidden')){
+				$elem.data('status','hidden');
+			}else{
+				$elem.data('status','shown');
+			}
+		},
+		show:function($elem){
+			// showCallBack();
+			//显示之前判断是否当前是显示状态
+			// console.log($elem.is(':hidden'));
+			
+			if($elem.data('status')=='shown') return;
+			if($elem.data('status')=='show') return;
+			
+			$elem.data('status','show').trigger('show');
+
+			$elem.show(function(){
+				$elem.trigger('shown').data('status','shown');
+			});
+			// shownCallBack();
+			
+		},
+		hide:function($elem){
+			if($elem.data('status') == 'hidden') return;
+			if($elem.data('status') == 'hide') return;
+			
+			$elem.data('status','hide').trigger('hide');
+			$elem.hide(function(){
+				$elem.trigger('hidden').data('status','hidden');
+			});
+			
+		}
+	};
+	var $elem = $('#box');
+	/*
+	$elem.on('show',function(){
+		$elem.html('<p>我要显示了</p>');
+	});
+	$elem.on('show',function(){
+		$elem.css('color','blue');
+	});	
+	$elem.on('shown',function(){
+		$elem.html($elem.html()+'<p>我显示了</p>');
+	});
+	*/
+	$elem.on('show shown hide hidden',function(ev){
+		if(ev.type == 'show'){
+			console.log('show.....');
+		}else if(ev.type == 'shown'){
+			console.log('shown.....');
+		}else if(ev.type == 'hide'){
+			console.log('hide....');
+		}else if(ev.type == 'hidden'){
+			console.log('hidden....');
+		}
+	});	
+	//显示
+
+	slient.init($elem);
+
+	$('button').eq(0).on('click',function(){
+		/*
+		slient.show($elem,function(){
+			$elem.html('<p>我要显示了</p>');
+		},function(){
+			$elem.html($elem.html()+'<p>我显示了</p>');
+		});
+		*/
+		slient.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		slient.hide($elem);
+	})
+</script>
+</html>
