@@ -57,23 +57,22 @@
 			
 			$elem.data('status','show').trigger('show');
 
-			$elem.show(function(){
-				$elem.trigger('shown').data('status','shown');
-			});
+			$elem.show();
+			$elem.trigger('shown').data('status','shown');
 			// shownCallBack();
 			
 		},
 		hide:function($elem){
 			if($elem.data('status') == 'hidden') return;
 			if($elem.data('status') == 'hide') return;
-			
+
 			$elem.data('status','hide').trigger('hide');
-			$elem.hide(function(){
-				$elem.trigger('hidden').data('status','hidden');
-			});
+			$elem.hide();
+			$elem.trigger('hidden').data('status','hidden');
 			
 		}
 	};
+
 	var $elem = $('#box');
 	/*
 	$elem.on('show',function(){

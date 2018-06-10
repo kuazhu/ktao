@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨淘网</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<style>
+		#box{
+			width: 200px;
+			height: 200px;
+			background: red;
+			display: none;
+			/*opacity: 0;*/
+		}
+		.fadeOut{
+			opacity: 0;
+			visibility: hidden;
+		}
+	</style>
+</head>
+<body>
+<button>显示</button><button>隐藏</button>
+<div id='box' class=""></div>
+<p>我在这里</p>
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script>
+	//共通的初始化方法
+	function init($elem,hiddenCallBack){
+		if($elem.is(':hidden')){
+			$elem.data('status','hidden');
+			//hiddenCallBack && hiddenCallBack();
+			if(typeof hiddenCallBack == 'function') hiddenCallBack();
+		}else{
+			$elem.data('status','shown');
+		}		
+	}
+	function show($elem,callBack){
+		if($elem.data('status')=='shown') return;
+		if($elem.data('status')=='show') return;
+		
+		$elem.data('status','show').trigger('show');
+
+		callBack();	
+	}
+	function hide($elem,callBack){
+		if($elem.data('status') == 'hidden') return;
+		if($elem.data('status') == 'hide') return;
+
+		$elem.data('status','hide').trigger('hide');
+		callBack();		
+	}
+	var slient = {
+		/*
+		show:function($elem){
+			$elem.html('<p>我要显示了</p>');
+			$elem.show();
+			$elem.html($elem.html()+'<p>我显示了</p>');
+		},
+		hide:function($elem){
+			$elem.hide();
+		}
+		*/
+		/*
+		show:function($elem,showCallBack,shownCallBack){
+			showCallBack();
+			$elem.show();
+			shownCallBack();
+		},
+		hide:function($elem){
+			$elem.hide();
+		}
+		*/
+		init:init,
+		show:function($elem){
+			// showCallBack();
+			//显示之前判断是否当前是显示状态
+			// console.log($elem.is(':hidden'));
+			
+			// if($elem.data('status')=='shown') return;
+			// if($elem.data('status')=='show') return;
+			
+			// $elem.data('status','show').trigger('show');
+
+			// $elem.show();
+			// $elem.trigger('shown').data('status','shown');
+			// shownCallBack();
+
+			show($elem,function(){
+				$elem.show();
+				$elem.trigger('shown').data('status','shown');
+			})
+			
+		},
+		hide:function($elem){
+			// if($elem.data('status') == 'hidden') return;
+			// if($elem.data('status') == 'hide') return;
+
+			// $elem.data('status','hide').trigger('hide');
+			// $elem.hide();
+			// $elem.trigger('hidden').data('status','hidden');
+			hide($elem,function(){
+				$elem.hide();
+				$elem.trigger('hidden').data('status','hidden');				
+			});
+		}
+	};
+
+	//css3实现显示隐藏,动画的实现用过渡
+	var css3 = {	
+		//淡入淡出的显示隐藏
+		fade:{
+			init:function($elem){
+				$elem.addClass('transition');
+				init($elem,function(){
+					$elem.addClass('fadeOut');
+				});
+			},				
+			show:function($elem){
+				//$elem.show();//改dispaly=block
+				// $elem.css({
+				// 	opacity:1 //opacity隐藏的时候占据页面空间并能响应时间
+				// });
+				// if($elem.data('status')=='shown') return;
+				// if($elem.data('status')=='show') return;
+				
+				// $elem.data('status','show').trigger('show');
+
+				// $elem.show();//dispaly=block
+				
+				// $elem
+				// .off('transitionend')//为了解决用户频繁点击触发事件多次执行
+				// .one('transitionend',function(){//用one绑定事件是为了事件只触发一次后就移除
+				// 	$elem.trigger('shown').data('status','shown');
+				// });
+
+				// //此处添加定时器是为了等待元素完全由display:none 变为display:block
+				// setTimeout(function(){
+				// 	$elem.removeClass('fadeOut');
+				// },20);
+
+				show($elem,function(){
+					$elem.show();//dispaly=block
+					$elem
+					.off('transitionend')//为了解决用户频繁点击触发事件多次执行
+					.one('transitionend',function(){//用one绑定事件是为了事件只触发一次后就移除
+						$elem.trigger('shown').data('status','shown');
+					});
+
+					//此处添加定时器是为了等待元素完全由display:none 变为display:block
+					setTimeout(function(){
+						$elem.removeClass('fadeOut');
+					},20);					
+				})
+				
+			},
+			hide:function($elem){
+				//$elem.hide();//改dispaly=none
+				// $elem.css({
+				// 	opacity:0
+				// });	
+				// if($elem.data('status') == 'hidden') return;
+				// if($elem.data('status') == 'hide') return;
+
+				// $elem.data('status','hide').trigger('hide');
+				// //过渡完成后触发
+				// $elem.off('transitionend').one('transitionend',function(){
+				// 	// console.log('transitionend');
+				// 	$elem.hide();//display:none
+				// 	$elem.trigger('hidden').data('status','hidden');
+				// });
+				
+				// //触发了过渡	
+				// $elem.addClass('fadeOut');	
+				hide($elem,function(){
+					//过渡完成后触发
+					$elem.off('transitionend').one('transitionend',function(){
+						// console.log('transitionend');
+						$elem.hide();//display:none
+						$elem.trigger('hidden').data('status','hidden');
+					});
+					
+					//触发了过渡	
+					$elem.addClass('fadeOut');	
+				});	
+			}
+		},	
+		
+	};
+	var $elem = $('#box');
+	$elem.on('click',function(){
+		alert('I am here');
+	})
+	$elem.on('show shown hide hidden',function(ev){
+		if(ev.type == 'show'){
+			console.log('show.....');
+		}else if(ev.type == 'shown'){
+			console.log('shown.....');
+		}else if(ev.type == 'hide'){
+			console.log('hide....');
+		}else if(ev.type == 'hidden'){
+			console.log('hidden....');
+		}
+	});	
+	//显示
+	/*
+	css3.fade.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		css3.fade.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		css3.fade.hide($elem);
+	})
+	*/
+	slient.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		slient.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		slient.hide($elem);
+	})	
+</script>
+</html>
