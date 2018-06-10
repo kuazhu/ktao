@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨淘网</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<style>
+		#box{
+			width: 200px;
+			height: 200px;
+			background: red;
+			display: none;
+			overflow: hidden;
+			padding-top: 30px;
+			padding-bottom: 30px;
+			/*opacity: 0;*/
+		}
+		.fadeOut{
+			opacity: 0 !important;
+			visibility: hidden !important;
+		}
+		.slideUpDownCollapse{
+			height: 0 !important;
+			padding-top: 0 !important;
+			padding-bottom: 0 !important;
+		}
+		.slideLeftRightCollapse{
+			width: 0 !important;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}		
+	</style>
+</head>
+<body>
+<button>显示</button><button>隐藏</button>
+<div id='box' class="">
+</div>
+<p>我在这里</p>
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script src="js/transition.js"></script>
+<script>
+	// console.log(kuazhu.transition);
+	//共通的初始化方法
+	function init($elem,hiddenCallBack){
+		if($elem.is(':hidden')){
+			$elem.data('status','hidden');
+			//hiddenCallBack && hiddenCallBack();
+			if(typeof hiddenCallBack == 'function') hiddenCallBack();
+		}else{
+			$elem.data('status','shown');
+		}		
+	}
+	function show($elem,callBack){
+		if($elem.data('status')=='shown') return;
+		if($elem.data('status')=='show') return;
+		
+		$elem.data('status','show').trigger('show');
+
+		callBack();	
+	}
+	function hide($elem,callBack){
+		if($elem.data('status') == 'hidden') return;
+		if($elem.data('status') == 'hide') return;
+
+		$elem.data('status','hide').trigger('hide');
+		callBack();		
+	}
+	var slient = {
+
+		init:init,
+		show:function($elem){
+
+			show($elem,function(){
+				$elem.show();
+				$elem.trigger('shown').data('status','shown');
+			})
+			
+		},
+		hide:function($elem){
+
+			hide($elem,function(){
+				$elem.hide();
+				$elem.trigger('hidden').data('status','hidden');				
+			});
+		}
+	};
+
+	//css3实现显示隐藏,动画的实现用过渡
+	var css3 = {	
+		//淡入淡出的显示隐藏
+		fade:{
+			init:function($elem){
+				css3._init($elem,'fadeOut'); 
+			},				
+			show:function($elem){
+				css3._show($elem,'fadeOut');
+			},
+			hide:function($elem){
+				css3._hide($elem,'fadeOut');
+			}
+		},
+		//上下卷入卷出
+		slideUpDown:{
+			init:function($elem){
+				$elem.height($elem.height());
+				css3._init($elem,'slideUpDownCollapse'); 
+			},
+			show:function($elem){
+				css3._show($elem,'slideUpDownCollapse');
+			},
+			hide:function($elem){
+				css3._hide($elem,'slideUpDownCollapse');
+			}				
+		},
+		//左右卷入卷出
+		slideLeftRight:{
+			init:function($elem){
+				$elem.width($elem.width());
+				css3._init($elem,'slideLeftRightCollapse'); 
+			},
+			show:function($elem){
+				css3._show($elem,'slideLeftRightCollapse');
+			},
+			hide:function($elem){
+				css3._hide($elem,'slideLeftRightCollapse');
+			}	
+		},
+		//淡入淡出上下卷入卷出
+		fadeSlideUpDown:{
+			init:function($elem){
+				$elem.height($elem.height());
+				css3._init($elem,'fadeOut slideUpDownCollapse'); 
+			},
+			show:function($elem){
+				css3._show($elem,'fadeOut slideUpDownCollapse');
+			},
+			hide:function($elem){
+				css3._hide($elem,'fadeOut slideUpDownCollapse');
+			}
+		},
+		//淡入淡出左右卷入卷出
+		fadeSlideLeftRight:{
+			init:function($elem){
+				$elem.width($elem.width());
+				css3._init($elem,'fadeOut slideLeftRightCollapse'); 
+			},
+			show:function($elem){
+				css3._show($elem,'fadeOut slideLeftRightCollapse');
+			},
+			hide:function($elem){
+				css3._hide($elem,'fadeOut slideLeftRightCollapse');
+			}
+		},		
+	};
+
+	css3._init = function($elem,className){
+		$elem.addClass('transition');
+		init($elem,function(){
+			$elem.addClass(className);
+		});			
+	}
+	css3._show = function($elem,className){
+		show($elem,function(){
+			$elem.show();//dispaly=block
+			$elem
+			.off(kuazhu.transition.end)//为了解决用户频繁点击触发事件多次执行
+			.one(kuazhu.transition.end,function(){//用one绑定事件是为了事件只触发一次后就移除
+				$elem.trigger('shown').data('status','shown');
+			});
+
+			//此处添加定时器是为了等待元素完全由display:none 变为display:block
+			setTimeout(function(){
+				$elem.removeClass(className);
+			},20);					
+		});		
+	}
+	css3._hide = function($elem,className){
+		hide($elem,function(){
+			//过渡完成后触发
+			$elem
+			.off(kuazhu.transition.end)
+			.one(kuazhu.transition.end,function(){
+				// console.log('transitionend');
+				$elem.hide();//display:none
+				$elem.trigger('hidden').data('status','hidden');
+			});
+			
+			//触发了过渡	
+			$elem.addClass(className);	
+		});			
+	}
+
+	var $elem = $('#box');
+	$elem.on('click',function(){
+		alert('I am here');
+	})
+	$elem.on('show shown hide hidden',function(ev){
+		if(ev.type == 'show'){
+			console.log('show.....');
+		}else if(ev.type == 'shown'){
+			console.log('shown.....');
+		}else if(ev.type == 'hide'){
+			console.log('hide....');
+		}else if(ev.type == 'hidden'){
+			console.log('hidden....');
+		}
+	});	
+	//显示
+	/*
+	css3.fade.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		css3.fade.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		css3.fade.hide($elem);
+	})
+	*/
+	
+	css3.fadeSlideLeftRight.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		css3.fadeSlideLeftRight.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		css3.fadeSlideLeftRight.hide($elem);
+	})
+	
+	/*
+	slient.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		slient.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		slient.hide($elem);
+	})	
+	*/
+</script>
+</html>
