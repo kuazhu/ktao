@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨淘网</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/common.css">
+	<style>
+		.box{
+			width: 200px;
+			height: 200px;
+			background: red;
+			/*display: none;*/
+			overflow: hidden;
+			padding-left: 30px;
+			padding-right: 30px; 
+/*			padding-top: 30px;
+			padding-bottom: 30px;*/
+			/*opacity: 0;*/
+			margin-top: 30px
+		}
+		.fadeOut{
+			opacity: 0 !important;
+			visibility: hidden !important;
+		}
+		.slideUpDownCollapse{
+			height: 0 !important;
+			padding-top: 0 !important;
+			padding-bottom: 0 !important;
+		}
+		.slideLeftRightCollapse{
+			width: 0 !important;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}		
+	</style>
+</head>
+<body>
+<button>显示</button><button>隐藏</button>
+<div id='box' class="box"></div>
+<div id='box' class="box"></div>
+
+<p>我在这里</p>
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script src="js/transition.js"></script>
+<script src="js/showhide.js"></script>
+<script>
+
+
+	var $elem = $('.box');
+	$elem.on('click',function(){
+		alert('I am here');
+	})
+	$elem.on('show shown hide hidden',function(ev){
+		if(ev.type == 'show'){
+			console.log('show.....');
+		}else if(ev.type == 'shown'){
+			console.log('shown.....');
+		}else if(ev.type == 'hide'){
+			console.log('hide....');
+		}else if(ev.type == 'hidden'){
+			console.log('hidden....');
+		}
+	});	
+
+	$elem.showHide({
+		css3:true,
+		js:false,
+		mode:'slideLeftRight'		
+	});
+	
+	// $elem.showHide('hide');
+
+	//显示
+	/*
+	js.fadeSlideLeftRight.init($elem);
+	*/
+	/*
+	var showHide = $elem.showHide($elem,{
+		css3:true,
+		js:false,
+		mode:'slideUpDown'
+	});
+	*/
+
+	$('button').eq(0).on('click',function(){
+
+		// js.fadeSlideLeftRight.show($elem);
+		$elem.showHide('show');
+	})
+	
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		// js.fadeSlideLeftRight.hide($elem);
+		$elem.showHide('hide');
+	})
+	
+	/*
+	css3.fadeSlideLeftRight.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		css3.fadeSlideLeftRight.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		css3.fadeSlideLeftRight.hide($elem);
+	})
+	*/
+	/*
+	slient.init($elem);
+
+	$('button').eq(0).on('click',function(){
+
+		slient.show($elem);
+	})
+	//隐藏
+	$('button').eq(1).on('click',function(){
+		slient.hide($elem);
+	})	
+	*/
+</script>
+</html>
