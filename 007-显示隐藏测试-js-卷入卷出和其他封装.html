@@ -10,7 +10,7 @@
 			width: 200px;
 			height: 200px;
 			background: red;
-			display: none;
+			/*display: none;*/
 			overflow: hidden;
 			padding-left: 30px;
 			padding-right: 30px; 
@@ -249,15 +249,21 @@
 		//左右卷入卷出
 		slideLeftRight:{
 			init:function($elem){
+				js._customInit($elem,{
+						width:'0px',
+						paddingLeft:'0px',
+						paddingRight:'0px'
+					});
+				/*
 				$elem.removeClass('transition');
+				//把原始值存储下来
+				var styles = {
+					width:$elem.css('width'),
+					paddingLeft:$elem.css('paddingLeft'),
+					paddingRight:$elem.css('paddingRight'),
+				};
+				$elem.data('styles',styles);				
 				init($elem,function(){
-					//把原始值存储下来
-					var styles = {
-						width:$elem.css('width'),
-						paddingLeft:$elem.css('paddingLeft'),
-						paddingRight:$elem.css('paddingRight'),
-					};
-					$elem.data('styles',styles);
 					//把水平的宽度值设置为0
 					$elem.css({
 						width:'0px',
@@ -265,8 +271,10 @@
 						paddingRight:'0px'
 					});
 				});
+				*/
 			},
 			show:function($elem){
+				/*
 				$elem.show();//display:block
 				//获取原始值
 				//var styles = $elem.data('styles');
@@ -277,9 +285,17 @@
 						$elem.trigger('shown').data('status','shown');
 					});					
 				})
+				*/
+				js._customShow($elem);
 
 			},
 			hide:function($elem){
+				js._customHide($elem,{
+						width:'0px',
+						paddingLeft:'0px',
+						paddingRight:'0px'				
+					});
+				/*
 				hide($elem,function(){
 					$elem.stop().animate({
 						width:'0px',
@@ -290,8 +306,142 @@
 						$elem.trigger('hidden').data('status','hidden');
 					});						
 				})
+				*/
 			}
 		},
+		//淡入淡出上下卷入卷出
+		fadeSlideUpDown:{
+			init:function($elem){
+				js._customInit($elem,{
+						height:'0px',
+						paddingTop:'0px',
+						paddingBottom:'0px',
+						opacity:0
+					});
+				/*
+				$elem.removeClass('transition');
+				//把原始值存储下来
+				var styles = {
+					height:$elem.css('height'),
+					paddingTop:$elem.css('paddingTop'),
+					paddingBottom:$elem.css('paddingBottom'),
+					opacity:$elem.css('opacity'),
+				};
+				$elem.data('styles',styles);				
+				init($elem,function(){
+					//把水平的宽度值设置为0
+					$elem.css({
+						height:'0px',
+						paddingTop:'0px',
+						paddingBottom:'0px',
+						opacity:0
+					});
+				});
+				*/
+			},
+			show:function($elem){
+				js._customShow($elem);
+				/*
+				$elem.show();//display:block
+				//获取原始值
+				//var styles = $elem.data('styles');
+				show($elem,function(){
+					$elem
+					.stop()
+					.animate($elem.data('styles'),function(){
+						$elem.trigger('shown').data('status','shown');
+					});					
+				})
+				*/
+
+			},
+			hide:function($elem){
+				js._customHide($elem,{
+						height:'0px',
+						paddingTop:'0px',
+						paddingBottom:'0px',	
+						opacity:0		
+					});
+				/*
+				hide($elem,function(){
+					$elem.stop().animate({
+						height:'0px',
+						paddingTop:'0px',
+						paddingBottom:'0px',	
+						opacity:0		
+					},function(){
+						$elem.hide();
+						$elem.trigger('hidden').data('status','hidden');
+					});						
+				})
+				*/
+			}			
+		},
+		//淡入淡出左右卷入卷出
+		fadeSlideLeftRight:{
+			init:function($elem){
+				js._customInit($elem,{
+						width:'0px',
+						paddingLeft:'0px',
+						paddingRight:'0px',
+						opacity:0
+					});
+				/*
+				$elem.removeClass('transition');
+				//把原始值存储下来
+				var styles = {
+					width:$elem.css('width'),
+					paddingLeft:$elem.css('paddingLeft'),
+					paddingRight:$elem.css('paddingRight'),
+				};
+				$elem.data('styles',styles);				
+				init($elem,function(){
+					//把水平的宽度值设置为0
+					$elem.css({
+						width:'0px',
+						paddingLeft:'0px',
+						paddingRight:'0px'
+					});
+				});
+				*/
+			},
+			show:function($elem){
+				/*
+				$elem.show();//display:block
+				//获取原始值
+				//var styles = $elem.data('styles');
+				show($elem,function(){
+					$elem
+					.stop()
+					.animate($elem.data('styles'),function(){
+						$elem.trigger('shown').data('status','shown');
+					});					
+				})
+				*/
+				js._customShow($elem);
+
+			},
+			hide:function($elem){
+				js._customHide($elem,{
+						width:'0px',
+						paddingLeft:'0px',
+						paddingRight:'0px',
+						opacity:0				
+					});
+				/*
+				hide($elem,function(){
+					$elem.stop().animate({
+						width:'0px',
+						paddingLeft:'0px',
+						paddingRight:'0px'				
+					},function(){
+						$elem.hide();
+						$elem.trigger('hidden').data('status','hidden');
+					});						
+				})
+				*/
+			}
+		}				
 	}
 	js._init = function($elem){
 		$elem.removeClass('transition');//避免和css3的过渡发生冲突
@@ -311,6 +461,59 @@
 			})
 		});		
 	}
+	js._customInit = function($elem,options){
+		$elem.removeClass('transition');
+
+		/*
+		options=
+		{
+				height:'0px',
+				paddingTop:'0px',
+				paddingBottom:'0px',
+				opacity:0
+		}
+		*/
+		//把原始值存储下来
+		// var styles = {
+		// 	height:$elem.css('height'),
+		// 	paddingTop:$elem.css('paddingTop'),
+		// 	paddingBottom:$elem.css('paddingBottom'),
+		// 	opacity:$elem.css('opacity'),
+		// };
+		var styles = {};
+
+		for(key in options){
+			styles[key] = $elem.css(key);
+		}
+		$elem.data('styles',styles);				
+		init($elem,function(){
+			//把水平的宽度值设置为0
+			$elem.css(options);
+		});		
+	}
+	js._customShow = function($elem){
+		$elem.show();//display:block
+		//获取原始值
+		//var styles = $elem.data('styles');
+		show($elem,function(){
+			$elem
+			.stop()
+			.animate($elem.data('styles'),function(){
+				$elem.trigger('shown').data('status','shown');
+			});					
+		})		
+	}
+	js._customHide = function($elem,options){
+		hide($elem,function(){
+			$elem.stop().animate(options,function(){
+				$elem.hide();
+				$elem.trigger('hidden').data('status','hidden');
+			});						
+		})		
+	}
+
+
+
 	var $elem = $('#box');
 	$elem.on('click',function(){
 		alert('I am here');
@@ -328,15 +531,15 @@
 	});	
 	//显示
 	
-	js.slideLeftRight.init($elem);
+	js.fadeSlideLeftRight.init($elem);
 
 	$('button').eq(0).on('click',function(){
 
-		js.slideLeftRight.show($elem);
+		js.fadeSlideLeftRight.show($elem);
 	})
 	//隐藏
 	$('button').eq(1).on('click',function(){
-		js.slideLeftRight.hide($elem);
+		js.fadeSlideLeftRight.hide($elem);
 	})
 	
 	/*
