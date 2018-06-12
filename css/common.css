@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:41
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-12 19:17:26
+* @Last Modified time: 2018-06-12 20:35:23
 */
 /*公共样式开始*/
 	body{
@@ -66,6 +66,12 @@
 		z-index: 1;
 		display: none;
 		overflow: hidden;
+	}
+	.dropdown-loading{
+		width: 32px;
+		height: 32px;
+		background: url(../images/loading.gif) no-repeat;
+		margin:20px;
 	}
 	[class*='-active'] .dropdown-arrow{
 		transform: rotate(180deg);
