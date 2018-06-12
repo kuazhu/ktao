@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:41
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-12 18:30:13
+* @Last Modified time: 2018-06-12 19:17:26
 */
 /*公共样式开始*/
 	body{
@@ -55,7 +55,12 @@
 		position: relative;
 		z-index: 2;
 	}
-	
+	.dropdown-left{
+		left:0;
+	}
+	.dropdown-right{
+		right:0;
+	}	
 	.dropdown-layer{
 		position: absolute;
 		z-index: 1;

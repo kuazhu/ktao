@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:50
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-10 10:06:23
+* @Last Modified time: 2018-06-12 19:18:56
 */
 /*顶部导航开始*/
 	.nav-site{
@@ -16,7 +16,10 @@
 		line-height: 44px;
 		margin-right: 10px;
 	}
-
+	.nav-category{
+		line-height: 44px;
+		margin:0 10px;
+	}
 	.nav-site .dropdown-toggle{
 		display: block;
 		height: 44px;
@@ -28,7 +31,7 @@
 	}
 	.nav-site .dropdown-layer{
 		top:43px;
-		left:0px;
+		/*left:0px;*/
 		background: #fff;
 		border: 1px solid #f3f5f6;
 	}
