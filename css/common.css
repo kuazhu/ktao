@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:41
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-10 11:49:10
+* @Last Modified time: 2018-06-12 18:30:13
 */
 /*公共样式开始*/
 	body{
@@ -60,8 +60,25 @@
 		position: absolute;
 		z-index: 1;
 		display: none;
+		overflow: hidden;
 	}
 	[class*='-active'] .dropdown-arrow{
 		transform: rotate(180deg);
 	}
 /*下拉菜单共同样式结束*/
+/*显示隐藏公共样式开始*/
+		.fadeOut{
+			opacity: 0 !important;
+			visibility: hidden !important;
+		}
+		.slideUpDownCollapse{
+			height: 0 !important;
+			padding-top: 0 !important;
+			padding-bottom: 0 !important;
+		}
+		.slideLeftRightCollapse{
+			width: 0 !important;
+			padding-left: 0 !important;
+			padding-right: 0 !important;
+		}	
+/*显示隐藏公共样式结束*/

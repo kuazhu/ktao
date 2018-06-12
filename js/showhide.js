@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-11 20:07:55
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-11 21:06:36
+* @Last Modified time: 2018-06-12 18:17:36
 */
 ;(function($) {
 	//共通的初始化方法
@@ -328,13 +328,13 @@
 	$.fn.extend({
 		showHide:function(options){
 			var defaults = {
-				css:false,
+				css3:false,
 				js:false,
 				mode:'fade'
 			}
 			this.each(function(){
 				var $elem = $(this);
-				var mode = $elem.data('mode');
+				var mode = $elem.data('mode');//undefined/obj
 				//单例模式
 				if(!mode){
 					options = $.extend(defaults,options);
