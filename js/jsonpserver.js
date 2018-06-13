@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-05-24 18:08:59
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-13 19:04:15
+* @Last Modified time: 2018-06-13 19:51:43
 */
 var http = require('http');
 var fs = require('fs');
@@ -24,6 +24,8 @@ var server = http.createServer(function(req,res){
 	var obj = '{"name":"TOM","age":18}';
 	console.log(prams.callback);
 	var resStr = callback + '('+obj+')';
+
+	//jQuery112405206270674256741_1528887936784({"name":"TOM","age":18})
 
 	//jQuery112407373568336424607_1528887701381({"name":"TOM","age":18})
 	// var parmsStr = JSON.stringify(prams);
