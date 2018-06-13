@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-12 20:56:02
+* @Last Modified time: 2018-06-13 20:42:57
 */
 ;(function($){
 	//$('.dropdown').dropdown();
@@ -53,5 +53,10 @@
 		$dropdown.dropdown('hide');
 	})	
 	*/
+
+	/*搜索框*/
+	$('.search').search({
+
+	});
 
 })(jQuery);
