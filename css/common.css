@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:41
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-12 20:35:23
+* @Last Modified time: 2018-06-13 18:26:41
 */
 /*公共样式开始*/
 	body{
@@ -93,3 +93,19 @@
 			padding-right: 0 !important;
 		}	
 /*显示隐藏公共样式结束*/
+
+/*搜索框公共样式开始*/
+	.search{
+		position: relative;
+	}
+	.search-layer{
+		display: none;
+		width: 100%;
+		position: absolute;
+		top:100%;
+		left:0px;
+	}
+/*搜索框公共样式结束*/
+
+
+
