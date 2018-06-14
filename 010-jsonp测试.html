@@ -5,16 +5,17 @@
 	<title>010-jsonp测试.html</title>
 </head>
 <body>
-	<button>获取数据</button>
+	<button id='btn'>获取数据</button>
 </body>
+<!--
 <script src="js/jquery-1.12.4.js"></script>
 <script>
 	$(function(){
 		$('button').on('click',function(){
 			$.ajax({
 				url:'http://127.0.0.1:3000/getData',
-				dataType:'jsonp',//eval
-				jsonp:'callback'//和服务器端约定
+				// dataType:'jsonp',//eval
+				// jsonp:'callback'//和服务器端约定
 			})
 			.done(function(data){
 				console.log(data);
@@ -22,5 +23,19 @@
 		})
 
 	})
+</script>
+-->
+<script>
+	function handleRes(data){
+		console.log(data);
+	}
+</script>
+<script>
+	var oBtn = document.getElementById('btn');
+	oBtn.onclick = function(){
+		var script = document.createElement('script');
+		script.src = 'http://127.0.0.1:3000/getData?callback=handleRes';
+		document.body.appendChild(script);
+	}
 </script>
 </html>

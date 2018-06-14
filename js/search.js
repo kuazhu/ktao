@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-13 20:52:19
+* @Last Modified time: 2018-06-14 18:45:22
 */
 ;(function($){
 	function Search($elem,options){
@@ -14,6 +14,10 @@
 		this.options = options;
 
 		this._init();
+
+		if(this.options.autocomplete){
+			this.auto();
+		}
 	}
 	Search.prototype = {
 		constructor:Search,
@@ -27,6 +31,52 @@
 			}
 			this.$searchFrom.trigger('submit');
 		},
+		auto:function(){
+			//获取数据
+			this.getData();
+		},
+		getData:function(){
+			var self = this;
+			//当用户输入时动态获取提示数据
+			this.$searchInput.on('input',function(){
+				//获取服务器数据
+				$.ajax({
+					url:self.options.url+self.getInputVal(),
+					dataType:'jsonp',
+					jsonp:'callback'
+				})
+				.done(function(data){
+					// console.log(data);
+					if(data.result.length == 0){
+						self.$searchLayer.html('').hide();
+						return;
+					}
+
+					var html = '';
+
+					var dataNum = 10;
+
+					for(var i = 0;i<data.result.length;i++){
+						if(i>=dataNum) break;
+						html += '<li class="search-item">'+data.result[i][0]+'</li>'
+					}
+
+					self.$searchLayer.html(html).show();
+				})
+				.fail(function(err){
+					self.$searchLayer.html('').hide();
+				})
+				.always(function(){
+					// console.log('always me');
+				});
+			});
+		},
+		showLayer:function(){
+
+		},
+		hideLayer:function(){
+
+		},
 		getInputVal:function(){
 			return $.trim(this.$searchInput.val());
 		}
@@ -35,7 +85,8 @@
 		autocomplete:false,
 		css3:false,
 		js:false,
-		mode:'fade'
+		mode:'fade',
+		url:'https://suggest.taobao.com/sug?code=utf-8&_ksTS=1528889766600_556&k=1&area=c2c&bucketid=17&q='
 	}
 
 	$.fn.extend({
