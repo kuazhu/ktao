@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-14 18:45:22
+* @Last Modified time: 2018-06-14 19:16:47
 */
 ;(function($){
 	function Search($elem,options){
@@ -33,49 +33,43 @@
 		},
 		auto:function(){
 			//获取数据
-			this.getData();
+			// this.getData();
+			this.$searchInput
+			.on('input',$.proxy(this.getData,this))
+			.on('focus',$.proxy(this.showLayer,this))
+			.on('click',function(ev){
+				ev.stopPropagation();
+			});
+			$(document).on('click',$.proxy(this.hideLayer,this));
+
+			this.$searchLayer.showHide(this.options);
+
 		},
 		getData:function(){
-			var self = this;
-			//当用户输入时动态获取提示数据
-			this.$searchInput.on('input',function(){
-				//获取服务器数据
-				$.ajax({
-					url:self.options.url+self.getInputVal(),
-					dataType:'jsonp',
-					jsonp:'callback'
-				})
-				.done(function(data){
-					// console.log(data);
-					if(data.result.length == 0){
-						self.$searchLayer.html('').hide();
-						return;
-					}
-
-					var html = '';
-
-					var dataNum = 10;
-
-					for(var i = 0;i<data.result.length;i++){
-						if(i>=dataNum) break;
-						html += '<li class="search-item">'+data.result[i][0]+'</li>'
-					}
-
-					self.$searchLayer.html(html).show();
-				})
-				.fail(function(err){
-					self.$searchLayer.html('').hide();
-				})
-				.always(function(){
-					// console.log('always me');
-				});
+			//获取服务器数据
+			$.ajax({
+				url:this.options.url+this.getInputVal(),
+				dataType:'jsonp',
+				jsonp:'callback'
+			})
+			.done(function(data){
+				this.$elem.trigger('getData',[data,this.$searchLayer]);
+			}.bind(this))
+			.fail(function(err){
+				// this.$searchLayer.html('').hide();
+				this.$elem.trigger('getNoData',[this.$searchLayer]);
+			}.bind(this))
+			.always(function(){
+				// console.log('always me');
 			});
+		
 		},
 		showLayer:function(){
-
+			if($.trim(this.$searchLayer.html()) == '') return;
+			this.$searchLayer.showHide('show');
 		},
 		hideLayer:function(){
-
+			this.$searchLayer.showHide('hide');
 		},
 		getInputVal:function(){
 			return $.trim(this.$searchInput.val());
@@ -84,7 +78,7 @@
 	Search.DEFAULTS = {
 		autocomplete:false,
 		css3:false,
-		js:false,
+		js:true,
 		mode:'fade',
 		url:'https://suggest.taobao.com/sug?code=utf-8&_ksTS=1528889766600_556&k=1&area=c2c&bucketid=17&q='
 	}

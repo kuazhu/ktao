@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-14 18:38:27
+* @Last Modified time: 2018-06-14 19:21:55
 */
 ;(function($){
 	//$('.dropdown').dropdown();
@@ -58,5 +58,27 @@
 	$('.search').search({
 		autocomplete:true
 	});
+	$('.search')
+	.on('getData',function(ev,data,$searchLayer){
+		console.log('get data');
+				// console.log(data);
+			if(data.result.length == 0){
+				$searchLayer.html('').hide();
+				return;
+			}
+			var html = '';
+
+			var dataNum = 10;
+
+			for(var i = 0;i<data.result.length;i++){
+				if(i>=dataNum) break;
+				html += '<li class="search-item">'+data.result[i][0]+'</li>'
+			}
+
+			$searchLayer.html(html).showHide('show');		
+	})
+	.on('getNoData',function(ev,$searchLayer){
+		$searchLayer.html('').showHide('hide');
+	})
 
 })(jQuery);
