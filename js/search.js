@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-14 19:16:47
+* @Last Modified time: 2018-06-14 19:59:16
 */
 ;(function($){
 	function Search($elem,options){
@@ -16,7 +16,7 @@
 		this._init();
 
 		if(this.options.autocomplete){
-			this.auto();
+			this.autocomplete();
 		}
 	}
 	Search.prototype = {
@@ -31,7 +31,7 @@
 			}
 			this.$searchFrom.trigger('submit');
 		},
-		auto:function(){
+		autocomplete:function(){
 			//获取数据
 			// this.getData();
 			this.$searchInput
@@ -42,6 +42,7 @@
 			});
 			$(document).on('click',$.proxy(this.hideLayer,this));
 
+			//初始化显示隐藏插件
 			this.$searchLayer.showHide(this.options);
 
 		},
@@ -53,11 +54,11 @@
 				jsonp:'callback'
 			})
 			.done(function(data){
-				this.$elem.trigger('getData',[data,this.$searchLayer]);
+				this.$elem.trigger('getData',[data]);
 			}.bind(this))
 			.fail(function(err){
 				// this.$searchLayer.html('').hide();
-				this.$elem.trigger('getNoData',[this.$searchLayer]);
+				this.$elem.trigger('getNoData');
 			}.bind(this))
 			.always(function(){
 				// console.log('always me');
@@ -73,18 +74,27 @@
 		},
 		getInputVal:function(){
 			return $.trim(this.$searchInput.val());
+		},
+		appendLayer:function(html){
+			this.$searchLayer.html(html);
+		},
+		setInputVal:function(val){
+			this.$searchInput.val(removeHTMLTag(val));
+			function removeHTMLTag(str){
+				return str.replace(/<[^<|>]+>/g,'');
+			}			
 		}
 	}
 	Search.DEFAULTS = {
 		autocomplete:false,
 		css3:false,
-		js:true,
-		mode:'fade',
+		js:false,
+		mode:'slideUpDown',
 		url:'https://suggest.taobao.com/sug?code=utf-8&_ksTS=1528889766600_556&k=1&area=c2c&bucketid=17&q='
 	}
 
 	$.fn.extend({
-		search:function(options){
+		search:function(options,val){
 			return this.each(function(){
 				var $this = $(this);
 				var search = $this.data('search');
@@ -94,7 +104,7 @@
 					$this.data('search',search);
 				}
 				if(typeof search[options] == 'function'){
-					search[options]();
+					search[options](val);
 				}
 			});
 		}
