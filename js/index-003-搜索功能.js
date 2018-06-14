@@ -2,13 +2,14 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-14 20:24:12
+* @Last Modified time: 2018-06-14 19:58:09
 */
 ;(function($){
-
-	/*顶部下拉菜单开始*/
+	//$('.dropdown').dropdown();
+	
 	var $dropdown = $('.dropdown');
 	
+
 	$dropdown.on('dropdown-show',function(ev){
 		// console.log(this);
 		var $this = $(this);
@@ -44,29 +45,40 @@
 		js:true,
 		mode:'slideUpDown'
 	});
+	/*测试暴露接口
+	$('button').eq(0).click(function(){
+		$dropdown.dropdown('show');
+	})
+	$('button').eq(1).click(function(){
+		$dropdown.dropdown('hide');
+	})	
+	*/
 
-	/*顶部下拉菜单结束*/
-	
-	/*搜索框开始*/
+	/*搜索框*/
 
-	var $search = $('.search');
+	var $elem = $('.search');
 	
-	$search.search({
+	$elem.search({
 		autocomplete:true
 	});
 	
-	$search
+	$elem
 	.on('getData',function(ev,data){
 			var $this = $(this);
 			var html = createSearchLayer(data,10);	
 			$this.search('appendLayer',html).search('showLayer');
+			// $searchLayer.html(html).showHide('show');
 	})
 	.on('getNoData',function(){
+		// $searchLayer.html('').showHide('hide');
 		$this.search('appendLayer','').search('hideLayer');
 	})
 	.on('click','.search-item',function(){
-		$search.search('setInputVal',$(this).html());
-		$search.search('submit');
+		// $searchInput.val(removeHTMLTag($(this).html()));
+		// $searchFrom.trigger('submit');
+		// console.log($elem);
+		$elem.search('setInputVal',$(this).html());
+		$elem.search('submit');
 
 	});
 
@@ -81,6 +93,5 @@
 		}
 		return html;
 	}
-	/*搜索框结束*/	
 
 })(jQuery);
