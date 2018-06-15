@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-14 20:59:57
+* @Last Modified time: 2018-06-15 18:13:20
 */
 ;(function($){
 	var cache = {
@@ -57,6 +57,8 @@
 					this.timer = setTimeout(function(){
 						this.getData();
 					}.bind(this),this.options.getDataInterval)
+				}else{
+					this.getData();
 				}
 				
 			}.bind(this))
@@ -88,7 +90,7 @@
 			}
 			//获取服务器数据
 			this.jqXHR = $.ajax({
-				url:this.options.url+this.getInputVal(),
+				url:this.options.url+inputVal,
 				dataType:'jsonp',
 				jsonp:'callback'
 			})

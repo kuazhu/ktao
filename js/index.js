@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-14 20:24:12
+* @Last Modified time: 2018-06-15 18:14:15
 */
 ;(function($){
 
@@ -51,18 +51,25 @@
 
 	var $search = $('.search');
 	
+	//search插件初始化
 	$search.search({
-		autocomplete:true
+		autocomplete:true,
+		getDataInterval:0
 	});
 	
 	$search
 	.on('getData',function(ev,data){
 			var $this = $(this);
 			var html = createSearchLayer(data,10);	
-			$this.search('appendLayer',html).search('showLayer');
+			$this.search('appendLayer',html);
+			if(html){
+				$this.search('showLayer');
+			}else{
+				$this.search('hideLayer');
+			}
 	})
 	.on('getNoData',function(){
-		$this.search('appendLayer','').search('hideLayer');
+		$search.search('appendLayer','').search('hideLayer');
 	})
 	.on('click','.search-item',function(){
 		$search.search('setInputVal',$(this).html());
