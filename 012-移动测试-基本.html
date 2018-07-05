@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨淘网</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/fontawesome-all.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/index.css">
+	<style>
+		button{
+			width: 100px;
+			height: 50px;
+			font-size: 20px;
+		}
+		.box{
+			width: 100px;
+			height: 100px;
+			background: red;
+			position: absolute;
+			left:0;
+			top:100px;
+		}
+	</style>
+</head>
+<body>
+	<button>&lt;</button><button>&gt;</button>
+	<div class="box transition"></div>
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script src="js/transition.js"></script>
+
+<script>
+	(function($) {
+
+		function Slient($elem){
+			this.$elem = $elem;
+			this.$elem.removeClass('transition');
+			this.currentX = parseFloat(this.$elem.css('left'));
+			this.currentY = parseFloat(this.$elem.css('top'));
+		}
+
+		Slient.prototype = {
+			constructor : Slient,
+			to:function(x,y){
+				x = (typeof x == 'number') ? x : this.currentX; 
+				y = (typeof y == 'number') ? y : this.currentY; 
+
+				if(this.currentX == x && this.currentY == y) return;
+				console.log('move...');
+				this.$elem.trigger('move');
+				this.$elem.css({
+					top:y,
+					left:x,
+				});
+				this.$elem.trigger('moved');
+				this.currentX = x;
+				this.currentY = y;
+			},
+			x:function(x){
+				this.to(x);
+			},
+			y:function(y){
+				this.to(null,y);
+			}
+		}
+
+		function Css3($elem){
+			this.$elem = $elem;
+			this.$elem.addClass('transition');
+			this.currentX = parseFloat(this.$elem.css('left'));
+			this.currentY = parseFloat(this.$elem.css('top'));
+			//初始化添加left和top
+			this.$elem.css({
+				left:this.currentX,
+				top:this.currentY
+			});
+		}
+
+		Css3.prototype = {
+			constructor : Css3,
+			to:function(x,y){
+				var self = this;
+				x = (typeof x == 'number') ? x : this.currentX; 
+				y = (typeof y == 'number') ? y : this.currentY; 
+
+				if(this.currentX == x && this.currentY == y) return;
+				this.$elem.trigger('move');
+				//监听过渡完成事件
+				this.$elem
+				.off(kuazhu.transition.end)
+				.one(kuazhu.transition.end,function(){
+					self.$elem.trigger('moved');
+				});
+
+				this.$elem.css({
+					top:y,
+					left:x,
+				});
+
+				this.currentX = x;
+				this.currentY = y;
+			},
+			x:function(x){
+				this.to(x);
+			},
+			y:function(y){
+				this.to(null,y);
+			}
+		}
+		function Js($elem){
+			this.$elem = $elem;
+			this.$elem.removeClass('transition');
+			this.currentX = parseFloat(this.$elem.css('left'));
+			this.currentY = parseFloat(this.$elem.css('top'));
+		}
+
+		Js.prototype = {
+			constructor : Js,
+			to:function(x,y){
+				var self = this;
+				x = (typeof x == 'number') ? x : this.currentX; 
+				y = (typeof y == 'number') ? y : this.currentY; 
+
+				if(this.currentX == x && this.currentY == y) return;
+				this.$elem.trigger('move');
+
+				this.$elem
+				.stop()
+				.animate({
+					left:x,
+					top:y
+				},function(){
+					self.$elem.trigger('moved');
+				});
+
+				this.currentX = x;
+				this.currentY = y;
+			},
+			x:function(x){
+				this.to(x);
+			},
+			y:function(y){
+				this.to(null,y);
+			}
+		}
+		var move = new Js($('.box'));
+		
+		$('.box').on('move moved',function(ev){
+			console.log(ev.type);
+		})
+		//move to left
+		$('button').eq(0).on('click',function(){
+			// move.to(0,100);
+			// move.x(0);
+			// move.to(0);
+			// move.y(50);
+
+		});
+		//move to right
+		$('button').eq(1).on('click',function(){
+			// move.to(200,200);
+			// move.x(100);
+			// move.y(200);
+
+		})
+
+	})(jQuery);
+</script>
+
+</html>
