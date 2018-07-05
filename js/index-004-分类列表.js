@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-05 11:39:08
+* @Last Modified time: 2018-07-05 09:24:47
 */
 ;(function($){
 
@@ -123,11 +123,4 @@
 
 	/*分类导航结束*/
 
-	/*中心轮播图开始*/
-	var $focusCarousel = $('.focus .carousel-container');
-
-	$focusCarousel.carousel({
-		activeIndex:5
-	})
-	/*中心轮播图结束*/
 })(jQuery);

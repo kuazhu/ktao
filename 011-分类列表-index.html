@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>跨淘网</title>
+	<link rel="stylesheet" href="css/reset.css">
+	<link rel="stylesheet" href="css/fontawesome-all.css">
+	<link rel="stylesheet" href="css/common.css">
+	<link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+<!--顶部导航开始-->
+<div class="nav-site">
+	<div class="container">
+		<ul class="fl nav-left">
+			<li class="fl"><a href="javascript:;" class="nav-login">亲,请登录</a></li>
+			<li class="fl"><a href="javascript:;" class="link">免费注册</a></li>
+			<li class="fl"><a href="#" class="link">手机逛跨淘</a></li>
+		</ul>
+		<ul class="fr">
+			<li class="dropdown fl" data-active='menu'>
+				<a href="javascript:;" class="link dropdown-toggle">我的跨淘<i class="fas dropdown-arrow transition">&#xf107;</i></a>
+				<ul class="dropdown-layer dropdown-left">
+					<li><a href="#" class="menu-item">已买到的宝贝</a></li>
+					<li><a href="#" class="menu-item">我的足迹</a></li>
+				</ul>
+			</li>
+			<li class="dropdown fl" data-active='menu'  data-load='data/nav-site/mykt.json'>
+				<a href="javascript:;" class="link dropdown-toggle">我的跨淘<i class="fas dropdown-arrow transition">&#xf107;</i></a>
+				<ul class="dropdown-layer dropdown-left">
+					<li class="dropdown-loading"></li>
+				</ul>
+			</li>
+			<li class="nav-category fl"><a href="#" class="link">商品分类</a></li>
+			<li class="dropdown fl" data-active='menu'>
+				<a href="javascript:;" class="link dropdown-toggle">买家中心<i class="fas dropdown-arrow transition">&#xf107;</i></a>
+				<ul class="dropdown-layer dropdown-right">
+					<li><a href="#" class="menu-item">免费开店</a></li>
+					<li><a href="#" class="menu-item">已卖出的宝贝</a></li>
+				</ul>
+			</li>						
+		</ul>
+	</div>
+</div>
+<!--顶部导航结束-->
+<!--头部开始-->
+<div class="header">
+	<div class="container">
+		<h1 class="fl">
+			<a href="#" class="header-logo"></a>
+		</h1>
+		<div class="search fl">
+			<form action="https://s.taobao.com/search" id='search-form'>
+				<input type="text" class="search-input fl" name="q" autocomplete="off">
+				<input type="submit" class="search-btn fl">
+			</form>
+			<ul class="search-layer">
+			</ul>
+		</div>
+	</div>
+</div>
+<!--头部结束-->
+<!--主导航开始-->
+<div class="nav-main">
+	<div class="container">
+		<a href="#" class="link">秒杀</a>
+		<a href="#" class="link">拍卖</a>
+		<a href="#" class="link">京东服饰</a>
+		<a href="#" class="link">京东超市</a>
+		<a href="#" class="link">生鲜</a>
+		<a href="#" class="link">京东金融</a>
+	</div>
+</div>
+<!--主导航结束-->
+<!--主要区域开始-->
+<div class="focus">
+	<div class="container">
+		<div class="category fl">
+			<a href="#" class="category-title">
+				<i class="fas icon">&#xf00a;</i>全部分类
+			</a>
+			<ul class="category-list">
+				<li class="dropdown" data-active='category' data-load='data/category/category-detail-1.json'>
+					<div class="dropdown-toggle">
+						<a href="#" class="dropdown-link">家用电器</a>
+						<i class="dropdown-icon">&gt;</i>
+					</div>
+					<div class="dropdown-layer">
+						<div class="dropdown-loading"></div>
+						<!--
+						<dl class="category-details clearfix">
+							<dt class="category-details-title fl">
+								<a href="#" class="category-details-title-link">电视</a>
+							</dt>
+							<dd class="category-details-item fl">
+								<a href="#" class="link">曲面电视</a>
+								<a href="#" class="link">超薄电视</a>					
+							</dd>
+						</dl>
+						-->				
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="carousel fl"></div>
+		<div class="sidebar fr"></div>
+	</div>
+</div>
+<!--主要区域结束-->
+<!--今日热销开始-->
+<div class="todays">
+	<div class="container"></div>
+</div>
+<!--今日热销结束-->
+<!--楼层1开始-->
+<div class="floor">
+	<div class="container"></div>
+</div>
+<!--楼层1结束-->
+<!--楼层2开始-->
+<div class="floor">
+	<div class="container"></div>
+</div>
+<!--楼层2结束-->
+<!--楼层3开始-->
+<div class="floor">
+	<div class="container"></div>
+</div>
+<!--楼层3结束-->
+<!--楼层4开始-->
+<div class="floor">
+	<div class="container"></div>
+</div>
+<!--楼层4结束-->
+</body>
+<script src="js/jquery-1.12.4.js"></script>
+<script src="js/transition.js"></script>
+<script src="js/showhide.js"></script>
+<script src="js/dropdown.js"></script>
+<script src="js/search.js"></script>
+<script src="js/index.js"></script>
+</html>
