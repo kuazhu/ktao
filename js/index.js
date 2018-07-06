@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 16:02:34
+* @Last Modified time: 2018-07-06 16:45:25
 */
 ;(function($){
 
@@ -22,6 +22,19 @@
 		});		
 	}
 
+	function loadImage(url,success,error){
+		var image = new Image();
+
+		image.onload = function(){
+			if(typeof success == 'function') success(url);
+		}
+
+		image.onerror = function(){
+			if(typeof error == 'function') error(url);
+		}
+
+		image.src = url;		
+	}
 	/*顶部下拉菜单开始*/
 	var $menu = $('.nav-site .dropdown');
 	
@@ -130,19 +143,27 @@
 		console.log(index,ev.type);
 	})
 	*/
-	$focusCarousel.on('carousel-show',function(ev,index,elem){
-		var $img = $(elem).find('img');
-		var imgUrl = $img.data('src');
-
-		// $img.attr('src',imgUrl);
-
-		var image = new Image();
-
-		image.onload = function(){
-			$img.attr('src',imgUrl);
+	var item = {};
+	var totalItemNum =  $focusCarousel.find('img').length;
+	var loadedItemNum = 0;
+	var loadFn = null;
+	$focusCarousel.on('carousel-show',loadFn = function(ev,index,elem){
+		console.log('carousel-show loading...');
+		if(item[index] != 'loaded'){
+			console.log(index,'loading...');
+			var $img = $(elem).find('img');
+			var imgUrl = $img.data('src');
+			loadImage(imgUrl,function(url){
+				$img.attr('src',url);
+			},function(url){
+				$img.attr('src','images/focus-carousel/placeholder.png');
+			});
+			item[index] = 'loaded';
+			loadedItemNum++;
+			if(loadedItemNum == totalItemNum){
+				$focusCarousel.off('carousel-show',loadFn)
+			}
 		}
-
-		image.src = imgUrl;
 	})
 
 	/*调用轮播图插件*/
