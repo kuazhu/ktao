@@ -139,42 +139,51 @@
 			}
 		}
 
-		var default = {
+		var Default = {
 			css3:true,
 			js:true
 		}
 
 		var mode = null;
 
-		function move(options){
+		function move($elem,options){
 			if(options.css3 && kuazhu.transition.isSupport){//css3的移动
-				mode = Css3;
+				mode = new Css3($elem);
 			}
 			else if(options.js){
-				mode = Js;
+				mode = new Js($elem);
 			}
 			else{
-				mode = Slient;
+				mode = new Slient($elem);
 			}
-
+			// return mode;
+			/*
 			return {
-				to:
-				x:
-				y:
+				to:mode.to.bind(mode),
+				x:mode.x.bind(mode),
+				y:mode.y.bind(mode)
 			}
+			*/
+			return {
+				to:$.proxy(mode.to,mode),
+				x:$.proxy(mode.x,mode),
+				y:$.proxy(mode.y,mode)
+			}			
 
 		}
 
 
+		var $elem = $('.box')
+		// var move = new Js($('.box'));
+		var moveMode = move($elem,{css3:true,js:false});
+		console.log(moveMode)
 
-		var move = new Js($('.box'));
-		
-		$('.box').on('move moved',function(ev){
+		$elem.on('move moved',function(ev){
 			console.log(ev.type);
 		})
 		//move to left
 		$('button').eq(0).on('click',function(){
-			move.to(0,100);
+			moveMode.to(0,100);
 			// move.x(0);
 			// move.to(0);
 			// move.y(50);
@@ -182,7 +191,7 @@
 		});
 		//move to right
 		$('button').eq(1).on('click',function(){
-			move.to(200,200);
+			moveMode.to(200,200);
 			// move.x(100);
 			// move.y(200);
 

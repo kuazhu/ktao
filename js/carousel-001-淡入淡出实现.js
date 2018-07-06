@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-07-05 10:36:38
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 11:40:18
+* @Last Modified time: 2018-07-05 14:38:57
 */
 ;(function($){
 
@@ -21,34 +21,20 @@
 		constructor:Carousel,
 		_init:function(){
 			var self = this;
+			//显示当前的
+			this.$carouselItems.eq(this.now).show();
+			//激活底部对应的按钮
+			this.$btns.eq(this.now).addClass('active');
 
 			//划入划出
 			if(this.options.mode === 'slide'){
-				//添加划入划出的初始化class,隐藏所有的
-				this.$elem.addClass('slide');
-				//显示当前的
-				this.$carouselItems.eq(this.now).css({left:0});
-				//获取元素的宽度
-				this.itemWidth = this.$carouselItems.eq(0).width();
-				//初始化移动插件
-				this.$carouselItems.move(this.options);	
-				//获取过渡的class
-				this.transitionClass = this.$carouselItems.eq(this.now).hasClass('transition') ? 'transition' : '';
 				this.tab = this._slide;
 			//淡入淡出	
 			}else{
-				//添加划入划出的初始化class,隐藏所有的
-				this.$elem.addClass('fade');
-				//显示当前的
-				this.$carouselItems.eq(this.now).show();								
 				//初始化显示隐藏插件
 				this.$carouselItems.showHide(this.options);
 				this.tab = this._fade;
-
 			}
-			//激活底部对应的按钮
-			this.$btns.eq(this.now).addClass('active');	
-
 			//绑定事件
 			this.$elem
 			.hover(function(){
@@ -57,12 +43,11 @@
 				self.$controlBtns.hide();
 			})
 			.on('click','.control-right',function(){
-				//划动时向左划,方向是1
-				self.tab(self._getCorrectIndex(self.now+1,1));
+
+				self.tab(self._getCorrectIndex(self.now+1));
 			})
 			.on('click','.control-left',function(){
-				//划动时向右划,方向是-1
-				self.tab(self._getCorrectIndex(self.now-1),-1);
+				self.tab(self._getCorrectIndex(self.now-1));
 			});
 
 			this.$btns.on('click',function(){
@@ -86,40 +71,14 @@
 
 			this.now = index;
 		},
-		_slide(index,direction){
-			if(this.now == index) return;
-			//index代表将要划入的索引
-			//this.now代表当前的
-			//direction 左划,方向是1,右划,方向是-1
-			
-			//确定方向
-			if(!direction){
-				if(index > this.now){
-					direction = 1;
-				}else{
-					direction = -1;
-				}				
-			}
+		_slide(){
 
-			//让将要划入的放到指定位置
-			this.$carouselItems.eq(index).removeClass(this.transitionClass).css({left:direction * this.itemWidth});
-			
-			setTimeout(function(){
-				//让当前的的划出
-				this.$carouselItems.eq(this.now).move('x',-1 * direction * this.itemWidth)
-				//让指定的划入
-				this.$carouselItems.eq(index).addClass(this.transitionClass).move('x',0);
-				this.now = index;
-			}.bind(this),20);
-
-			this.$btns.eq(this.now).removeClass('active');
-			this.$btns.eq(index).addClass('active');			
 		},
 		auto(){
 			var self = this;
 			this.timer = null;
 			this.timer = setInterval(function(){
-				self.tab(self._getCorrectIndex(self.now+1),-1);
+				self.tab(self._getCorrectIndex(self.now+1));
 			},this.options.interval)
 		},
 		pause(){
@@ -133,8 +92,8 @@
 	}
 
 	Carousel.DEFAULTS = {
-		css3:false,
-		js:true,
+		css3:true,
+		js:false,
 		mode:'fade',
 		activeIndex:1,
 		interval:0
