@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 15:11:24
+* @Last Modified time: 2018-07-06 16:02:34
 */
 ;(function($){
 
@@ -125,9 +125,24 @@
 
 	/*中心轮播图开始*/
 	var $focusCarousel = $('.focus .carousel-container');
-	
+	/*
 	$focusCarousel.on('carousel-show carousel-shown carousel-hide carousel-hidden',function(ev,index,elem){
 		console.log(index,ev.type);
+	})
+	*/
+	$focusCarousel.on('carousel-show',function(ev,index,elem){
+		var $img = $(elem).find('img');
+		var imgUrl = $img.data('src');
+
+		// $img.attr('src',imgUrl);
+
+		var image = new Image();
+
+		image.onload = function(){
+			$img.attr('src',imgUrl);
+		}
+
+		image.src = imgUrl;
 	})
 
 	/*调用轮播图插件*/

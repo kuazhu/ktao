@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-07-05 10:36:38
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 15:10:52
+* @Last Modified time: 2018-07-06 15:56:13
 */
 ;(function($){
 
@@ -21,7 +21,7 @@
 		constructor:Carousel,
 		_init:function(){
 			var self = this;
-
+			this.$elem.trigger('carousel-show',[this.now,this.$carouselItems[this.now]]);
 			//划入划出
 			if(this.options.mode === 'slide'){
 				this.$carouselItems.on('move moved',function(ev){
