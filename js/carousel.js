@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-07-05 10:36:38
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 11:40:18
+* @Last Modified time: 2018-07-06 15:10:52
 */
 ;(function($){
 
@@ -24,6 +24,23 @@
 
 			//划入划出
 			if(this.options.mode === 'slide'){
+				this.$carouselItems.on('move moved',function(ev){
+					var index = self.$carouselItems.index(this);
+					// console.log(ev.type)
+					if(ev.type == 'move'){
+						if(index == self.now){
+							self.$elem.trigger('carousel-hide',[index,this]);
+						}else{
+							self.$elem.trigger('carousel-show',[index,this]);
+						}
+					}else if(ev.type == 'moved'){
+						if(index == self.now){
+							self.$elem.trigger('carousel-shown',[index,this]);
+						}else{
+							self.$elem.trigger('carousel-hidden',[index,this]);
+						}
+					}
+				});
 				//添加划入划出的初始化class,隐藏所有的
 				this.$elem.addClass('slide');
 				//显示当前的
@@ -37,6 +54,9 @@
 				this.tab = this._slide;
 			//淡入淡出	
 			}else{
+				this.$carouselItems.on('show shown hide hidden',function(ev){
+					self.$elem.trigger('carousel-'+ev.type,[self.$carouselItems.index(this),this]);
+				});
 				//添加划入划出的初始化class,隐藏所有的
 				this.$elem.addClass('fade');
 				//显示当前的
@@ -44,7 +64,6 @@
 				//初始化显示隐藏插件
 				this.$carouselItems.showHide(this.options);
 				this.tab = this._fade;
-
 			}
 			//激活底部对应的按钮
 			this.$btns.eq(this.now).addClass('active');	

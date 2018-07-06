@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 11:40:25
+* @Last Modified time: 2018-07-06 15:11:24
 */
 ;(function($){
 
@@ -125,11 +125,17 @@
 
 	/*中心轮播图开始*/
 	var $focusCarousel = $('.focus .carousel-container');
+	
+	$focusCarousel.on('carousel-show carousel-shown carousel-hide carousel-hidden',function(ev,index,elem){
+		console.log(index,ev.type);
+	})
+
 	/*调用轮播图插件*/
 	$focusCarousel.carousel({
 		activeIndex:0,
-		mode:'slide',
+		mode:'fade',
 		interval:0
-	})
+	});
+
 	/*中心轮播图结束*/
 })(jQuery);
