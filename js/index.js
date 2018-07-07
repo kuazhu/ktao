@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-07 14:38:30
+* @Last Modified time: 2018-07-07 17:23:23
 */
 ;(function($){
 
@@ -203,4 +203,21 @@
 	});
 	/*今日商品结束*/
 
+	/*楼层开始*/
+	var $floor = $('.floor');
+
+	$floor.on('tab-show tab-shown tab-hide tab-hidden',function(ev,index,elem){
+		console.log(index,elem,ev.type);
+	});
+	//楼层选项卡
+	$floor.tab({
+		css3:false,
+		js:false,
+		mode:'fade',
+		eventName:'mouseenter',
+		activeIndex:0,
+		delay:200,
+		interval:0
+	});
+	/*楼层结束*/
 })(jQuery);
