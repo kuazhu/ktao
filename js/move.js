@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 09:26:17
+* @Last Modified time: 2018-07-07 10:36:23
 */
 ;(function($){
 	function init($elem){
@@ -142,7 +142,7 @@
 				var $this = $(this);
 				var moveMode = $this.data('moveMode');
 				if(!moveMode){//单例模式
-					options  = $.extend(DEFAULTS,options);
+					options  = $.extend({},DEFAULTS,options);
 					moveMode = move($this,options);
 					$this.data('moveMode',moveMode);
 				}

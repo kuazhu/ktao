@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-07-05 10:36:38
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-06 15:56:13
+* @Last Modified time: 2018-07-07 10:32:24
 */
 ;(function($){
 
@@ -77,7 +77,7 @@
 			})
 			.on('click','.control-right',function(){
 				//划动时向左划,方向是1
-				self.tab(self._getCorrectIndex(self.now+1,1));
+				self.tab(self._getCorrectIndex(self.now+1),1);
 			})
 			.on('click','.control-left',function(){
 				//划动时向右划,方向是-1
@@ -110,7 +110,7 @@
 			//index代表将要划入的索引
 			//this.now代表当前的
 			//direction 左划,方向是1,右划,方向是-1
-			
+
 			//确定方向
 			if(!direction){
 				if(index > this.now){
@@ -138,7 +138,7 @@
 			var self = this;
 			this.timer = null;
 			this.timer = setInterval(function(){
-				self.tab(self._getCorrectIndex(self.now+1),-1);
+				self.tab(self._getCorrectIndex(self.now+1),1);
 			},this.options.interval)
 		},
 		pause(){
@@ -165,7 +165,7 @@
 				var $this = $(this);
 				var carousel = $this.data('carousel');
 				if(!carousel){//单例模式
-					options  = $.extend(Carousel.DEFAULTS,options);
+					options  = $.extend({},Carousel.DEFAULTS,options);
 					carousel = new Carousel($(this),options);
 					$this.data('carousel',carousel);
 				}

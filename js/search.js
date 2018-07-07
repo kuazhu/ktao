@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-15 18:32:15
+* @Last Modified time: 2018-07-07 10:38:47
 */
 ;(function($){
 	var cache = {
@@ -144,7 +144,7 @@
 				var $this = $(this);
 				var search = $this.data('search');
 				if(!search){//单例模式
-					options  = $.extend(Search.DEFAULTS,options);
+					options  = $.extend({},Search.DEFAULTS,options);
 					search = new Search($(this),options);
 					$this.data('search',search);
 				}

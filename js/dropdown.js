@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-12 18:20:04
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-06-12 20:09:40
+* @Last Modified time: 2018-07-07 10:36:08
 */
 
 ;(function($){
@@ -77,7 +77,7 @@
 				var $this = $(this);
 				var dropdown = $this.data('dropdown');
 				if(!dropdown){//单例模式
-					options  = $.extend(DropDown.DEFAULTS,options);
+					options  = $.extend({},DropDown.DEFAULTS,options);
 					dropdown = new DropDown($(this),options);
 					$this.data('dropdown',dropdown);
 				}
