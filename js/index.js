@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-07 11:22:20
+* @Last Modified time: 2018-07-07 14:38:30
 */
 ;(function($){
 
@@ -136,18 +136,6 @@
 
 	/*分类导航结束*/
 
-	/*中心轮播图开始*/
-	var $focusCarousel = $('.focus .carousel-container');
-	/*
-	$focusCarousel.on('carousel-show carousel-shown carousel-hide carousel-hidden',function(ev,index,elem){
-		console.log(index,ev.type);
-	})
-	*/
-	/*按需加载的步骤
-		1. 确定什么时候加载
-		2. 具体的加载
-		3. 加载完成的善后
-	*/
 	//轮播图按需加载函数
 	function carouselLazyLoad($elem){
 
@@ -185,34 +173,10 @@
 			$elem.off('carousel-show',$elem.loadFn)
 		});
 	}
-	/*
-	$focusCarousel.item = {};
-	$focusCarousel.totalItemNum =  $focusCarousel.find('.carousel-img').length;
-	$focusCarousel.loadedItemNum = 0;
-	
-	$focusCarousel.on('carousel-show',$focusCarousel.loadFn = function(ev,index,elem){
-		console.log('carousel-show loading...');
-		if($focusCarousel.item[index] != 'loaded'){
-			$focusCarousel.trigger('carousel-loadItem',[index,elem])
-		}
-	});
 
-	$focusCarousel.on('carousel-loadItem',function(ev,index,elem){
-		console.log(index,'loading...');
-		var $img = $(elem).find('.carousel-img');
-		var imgUrl = $img.data('src');
-		loadImage(imgUrl,function(url){
-			$img.attr('src',url);
-		},function(url){
-			$img.attr('src','images/focus-carousel/placeholder.png');
-		});
-		$focusCarousel.item[index] = 'loaded';
-		$focusCarousel.loadedItemNum++;
-		if($focusCarousel.loadedItemNum == $focusCarousel.totalItemNum){
-			$focusCarousel.trigger('carousel-loadedItems')
-		}
-	});
-	*/
+	/*中心轮播图开始*/
+	var $focusCarousel = $('.focus .carousel-container');
+
 	carouselLazyLoad($focusCarousel);
 
 	$focusCarousel.on('carousel-loadedItems',function(){
@@ -223,49 +187,16 @@
 	$focusCarousel.carousel({
 		activeIndex:0,
 		mode:'slide',
-		interval:2000
+		interval:0
 	});
 
 	/*中心轮播图结束*/
 	
 	/*今日商品开始*/
 	var $todaysCarousel = $('.todays .carousel-container');
-	/*
-	$todaysCarousel.item = {};
-	$todaysCarousel.totalItemNum =  $todaysCarousel.find('.carousel-img').length;
-	$todaysCarousel.loadedItemNum = 0;
-	
-	$todaysCarousel.on('carousel-show',$todaysCarousel.loadFn = function(ev,index,elem){
-		console.log('carousel-show loading...');
-		if($todaysCarousel.item[index] != 'loaded'){
-			$todaysCarousel.trigger('carousel-loadItem',[index,elem])
-		}
-	});
 
-	$todaysCarousel.on('carousel-loadItem',function(ev,index,elem){
-		console.log(index,'loading...');
-		var $imgs = $(elem).find('.carousel-img');
-		$imgs.each(function(){
-			var $img = $(this);
-			var imgUrl = $img.data('src');
-			loadImage(imgUrl,function(url){
-				$img.attr('src',url);
-			},function(url){
-				$img.attr('src','images/focus-carousel/placeholder.png');
-			});
-			$todaysCarousel.item[index] = 'loaded';
-			$todaysCarousel.loadedItemNum++;
-			if($todaysCarousel.loadedItemNum == $todaysCarousel.totalItemNum){
-				$todaysCarousel.trigger('carousel-loadedItems')
-			}
-		})
-	});
-
-	$todaysCarousel.on('carousel-loadedItems',function(){
-		$todaysCarousel.off('carousel-show',$todaysCarousel.loadFn)
-	});
-	*/
 	carouselLazyLoad($todaysCarousel);
+
 	$todaysCarousel.carousel({
 		activeIndex:0,
 		mode:'slide',
