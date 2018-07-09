@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-09 16:01:53
+* @Last Modified time: 2018-07-09 17:29:42
 */
 ;(function($){
 
@@ -33,6 +33,7 @@
 			callBack(data);
 		}
 	}
+	//加载图片
 	function loadImage(url,success,error){
 		var image = new Image();
 
@@ -46,6 +47,19 @@
 
 		image.src = url;		
 	}
+	//加载多张图片
+	function loadImages($imgs,success,error){
+		$imgs.each(function(){
+			var $img = $(this);
+			var imgUrl = $img.data('src');
+			loadImage(imgUrl,function(imgUrl){
+				// $img.attr('src',url); 
+				success($img,imgUrl);
+			},function(imgUrl){
+				error($img,imgUrl);
+			});
+		})
+	}	
 	//懒加载
 	/*
 	懒加载实例
@@ -81,8 +95,6 @@
 			$elem.off(eventName,loadFn)
 		});
 	}	
-
-
 
 	/*顶部下拉菜单开始*/
 	var $menu = $('.nav-site .dropdown');
@@ -185,52 +197,24 @@
 
 	/*分类导航结束*/
 
-	//轮播图按需加载函数
-	function carouselImgLazyLoad($elem){
-
-		var item = {},
-		    totalItemNum =  $elem.find('.carousel-img').length,
-			loadedItemNum = 0,
-			loadFn = null;
-		
-		$elem.on('carousel-show',loadFn = function(ev,index,elem){
-			console.log('carousel-show loading...');
-			if(item[index] != 'loaded'){
-				$elem.trigger('carousel-loadItem',[index,elem])
-			}
-		});
-
-		$elem.on('carousel-loadItem',function(ev,index,elem){
-			console.log(index,'loading...');
-			var $imgs = $(elem).find('.carousel-img');
-			$imgs.each(function(){
-				var $img = $(this);
-				var imgUrl = $img.data('src');
-				loadImage(imgUrl,function(url){
-					$img.attr('src',url);
-				},function(url){
-					$img.attr('src','images/focus-carousel/placeholder.png');
-				});
-				item[index] = 'loaded';
-				loadedItemNum++;
-				if(loadedItemNum == totalItemNum){
-					$elem.trigger('carousel-loadedItems')
-				}
-			})
-		});
-
-		$elem.on('carousel-loadedItems',function(){
-			$elem.off('carousel-show',loadFn)
-		});
-	}
-
 	/*中心轮播图开始*/
 	var $focusCarousel = $('.focus .carousel-container');
 
-	carouselImgLazyLoad($focusCarousel);
-
-	$focusCarousel.on('carousel-loadedItems',function(){
-		$focusCarousel.off('carousel-show',$focusCarousel.loadFn)
+	//中心轮播图图片具体的加载
+	$focusCarousel.on('focusCarousel-loadItem',function(ev,index,elem,success){
+		var $imgs = $(elem).find('.carousel-img');
+		loadImages($imgs,function($img,url){
+			$img.attr('src',url);
+			success();
+		},function($img,url){
+			$img.attr('src','images/focus-carousel/placeholder.png');
+		});		
+	});
+	lazyLoad({
+		totalItemNum:$focusCarousel.find('.carousel-img').length,
+		$elem:$focusCarousel,
+		eventName:'carousel-show',
+		eventPrefix:'focusCarousel'		
 	});
 
 	/*调用轮播图插件*/
@@ -245,8 +229,22 @@
 	/*今日商品开始*/
 	var $todaysCarousel = $('.todays .carousel-container');
 
-	carouselImgLazyLoad($todaysCarousel);
-
+	//录播图图片的具体加载
+	$todaysCarousel.on('todaysCarousel-loadItem',function(ev,index,elem,success){
+		var $imgs = $(elem).find('.carousel-img');
+		loadImages($imgs,function($img,url){
+			$img.attr('src',url);
+			success();
+		},function($img,url){
+			$img.attr('src','images/focus-carousel/placeholder.png');
+		});		
+	});
+	lazyLoad({
+		totalItemNum:$todaysCarousel.find('.carousel-img').length,
+		$elem:$todaysCarousel,
+		eventName:'carousel-show',
+		eventPrefix:'todaysCarousel'		
+	});
 	$todaysCarousel.carousel({
 		activeIndex:0,
 		mode:'slide',
@@ -325,19 +323,13 @@
 	//楼层图片的具体加载
 	$floors.on('tab-loadItem',function(ev,index,elem,success){
 		var $imgs = $(elem).find('.floor-img');
-		$imgs.each(function(){
-			var $img = $(this);
-			var imgUrl = $img.data('src');
-			loadImage(imgUrl,function(url){
-				setTimeout(function(){
-					$img.attr('src',url);
-				},1000)
-				
-			},function(url){
-				$img.attr('src','images/floor/placeholder.png');
-			});
-		})
-		success();
+		loadImages($imgs,function($img,url){
+			$img.attr('src',url);
+			success();
+		},function($img,url){
+			$img.attr('src','images/floor/placeholder.png');
+		});
+
 	});
 	//楼层html的具体加载
 	$doc.on('floor-loadItem',function(ev,index,elem,success){
@@ -368,6 +360,10 @@
 		});
 		success();
 	});
+	//移除楼层特殊的事件
+	$doc.on('floor-loadedItems',function(){
+		$win.off('scroll resize',$floors.toShowFn);	
+	})
 
 	//楼层html的按需加载
 	lazyLoad({
@@ -377,7 +373,7 @@
 		eventPrefix:'floor'	
 	});
 
-	$win.on('scroll resize',$floors.toShowFn = function(){
+	$win.on('scroll resize load',$floors.toShowFn = function(){
 		clearTimeout($floors.floorTimer);
 		$floors.floorTimer = setTimeout(function(){
 			timeToShow();
