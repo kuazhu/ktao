@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:16:50
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-07 16:00:31
+* @Last Modified time: 2018-07-09 10:20:37
 */
 /*顶部导航开始*/
 	.nav-site{
@@ -316,7 +316,9 @@
 /*今日热销结束*/
 /*楼层开始*/
 	.floor{
-		background: #fff;
+		background: orange;
+		height: 538px;
+		margin-bottom: 10px;
 	}
 	.floor .floor-hd{
 		width: 100%;
