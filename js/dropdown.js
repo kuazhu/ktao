@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-12 18:20:04
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-07 10:36:08
+* @Last Modified time: 2018-07-10 14:47:52
 */
 
 ;(function($){
@@ -23,12 +23,10 @@
 			this.$layer.showHide(this.options);	
 
 			this.$layer.on('show shown hide hidden',function(ev){
-				// console.log(ev.type);
 				this.$elem.trigger('dropdown-'+ev.type);
 			}.bind(this));
 
 			//绑定事件
-			//this.$elem.hover(this.show.bind(this),this.hide.bind(this));
 			if(this.options.eventName == 'click'){
 				this.$elem.on('click',function(ev){
 					ev.stopPropagation();

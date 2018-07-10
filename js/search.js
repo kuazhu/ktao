@@ -2,9 +2,11 @@
 * @Author: TomChen
 * @Date:   2018-06-13 18:30:03
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-07 10:38:47
+* @Last Modified time: 2018-07-10 15:37:49
 */
 ;(function($){
+
+	//缓存
 	var cache = {
 		data:{},
 		count:0,
@@ -16,7 +18,6 @@
 			return this.data[key];
 		}
 	};
-
 
 	function Search($elem,options){
 		this.$elem = $elem;
@@ -48,7 +49,6 @@
 		},
 		autocomplete:function(){
 			//获取数据
-			// this.getData();
 			this.$searchInput
 			.on('input',function(){
 
@@ -77,6 +77,7 @@
 			var inputVal = this.getInputVal();
 
 			if(inputVal == ''){
+				this.$searchLayer.showHide('hide');
 				return false;
 			}
 
@@ -84,8 +85,9 @@
 				this.$elem.trigger('getData',[cache.readData(inputVal)]);
 				return;
 			}
-
+			
 			if(this.jqXHR){
+				//终止请求
 				this.jqXHR.abort();
 			}
 			//获取服务器数据
@@ -99,16 +101,15 @@
 				this.$elem.trigger('getData',[data]);
 			}.bind(this))
 			.fail(function(err){
-				// this.$searchLayer.html('').hide();
 				this.$elem.trigger('getNoData');
 			}.bind(this))
 			.always(function(){
+				//避免请求结束后不去执行终止方法abort
 				this.jqXHR = null;
 			}.bind(this));
 
 		},
 		showLayer:function(){
-			// if($.trim(this.$searchLayer.html()) == '') return;
 			if(!this.isLoaded) return;
 			this.$searchLayer.showHide('show');
 		},

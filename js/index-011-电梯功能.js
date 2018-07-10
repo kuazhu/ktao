@@ -2,10 +2,10 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-10 15:01:34
+* @Last Modified time: 2018-07-10 11:05:56
 */
 ;(function($){
-	/*公共函数开始*/
+
 	function loadHtmlOnce($elem,callBack){
 		//获取需要请求的地址
 		var loadUrl = $elem.data('load');
@@ -62,7 +62,7 @@
 	}	
 	//懒加载
 	/*
-	懒加载参数实例
+	懒加载实例
 	options = {
 		totalItemNum:5
 		$elem:$elem,
@@ -95,10 +95,14 @@
 			$elem.off(eventName,loadFn)
 		});
 	}	
-	/*公共函数结束*/
 
 	/*顶部下拉菜单开始*/
-	//构建菜单并加载
+	var $menu = $('.nav-site .dropdown');
+	
+	$menu.on('dropdown-show',function(ev){
+		loadHtmlOnce($(this),buildMenuItem)
+	});
+	//构建菜单并加重
 	function buildMenuItem($elem,data){
 		var html = '';
 		for(var i = 0;i<data.length;i++){
@@ -110,13 +114,6 @@
 			$elem.data('isLoaded',true);
 		},1000);
 	}
-
-	var $menu = $('.nav-site .dropdown');
-	
-	$menu.on('dropdown-show',function(ev){
-		loadHtmlOnce($(this),buildMenuItem)
-	});
-	//下拉组件的初始化
 	$menu.dropdown({
 		css3:true,
 		js:true,
@@ -137,14 +134,14 @@
 	
 	$search
 	.on('getData',function(ev,data){
-		var $this = $(this);
-		var html = createSearchLayer(data,10);	
-		$this.search('appendLayer',html);
-		if(html){
-			$this.search('showLayer');
-		}else{
-			$this.search('hideLayer');
-		}
+			var $this = $(this);
+			var html = createSearchLayer(data,10);	
+			$this.search('appendLayer',html);
+			if(html){
+				$this.search('showLayer');
+			}else{
+				$this.search('hideLayer');
+			}
 	})
 	.on('getNoData',function(){
 		$search.search('appendLayer','').search('hideLayer');
@@ -171,6 +168,11 @@
 	/*分类导航开始*/
 	var $category = $('.category .dropdown');
 
+	$category.on('dropdown-show',function(ev){
+
+		loadHtmlOnce($(this),buildCategorItem);
+
+	});
 	function buildCategorItem($elem,data){
 		var html = '';
 		for(var i = 0;i<data.length;i++){
@@ -186,10 +188,6 @@
 			$elem.data('isLoaded',true);
 		},1000);		
 	}
-
-	$category.on('dropdown-show',function(ev){
-		loadHtmlOnce($(this),buildCategorItem);
-	});
 
 	$category.dropdown({
 		css3:false,
@@ -418,12 +416,5 @@
 	});
 
 	/*电梯结束*/
-
-	/*回到顶部*/
-	$('#backToTop').on('click',function(){
-		$('body,html').animate({
-			scrollTop:0
-		})
-	});
 
 })(jQuery);

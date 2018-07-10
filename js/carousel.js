@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-07-05 10:36:38
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-07 10:32:24
+* @Last Modified time: 2018-07-10 16:19:26
 */
 ;(function($){
 
@@ -26,7 +26,6 @@
 			if(this.options.mode === 'slide'){
 				this.$carouselItems.on('move moved',function(ev){
 					var index = self.$carouselItems.index(this);
-					// console.log(ev.type)
 					if(ev.type == 'move'){
 						if(index == self.now){
 							self.$elem.trigger('carousel-hide',[index,this]);
