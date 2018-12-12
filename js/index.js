@@ -2,7 +2,7 @@
 * @Author: TomChen
 * @Date:   2018-06-08 20:17:35
 * @Last Modified by:   TomChen
-* @Last Modified time: 2018-07-10 15:01:34
+* @Last Modified time: 2018-07-11 11:16:52
 */
 ;(function($){
 	/*公共函数开始*/
@@ -53,8 +53,11 @@
 			var $img = $(this);
 			var imgUrl = $img.data('src');
 			loadImage(imgUrl,function(imgUrl){
-				$img.attr('src',imgUrl); 
-				success();
+				setTimeout(function(){
+					$img.attr('src',imgUrl); 
+					success();
+				},1000)
+
 			},function(imgUrl){
 				error($img,imgUrl);
 			});
@@ -71,8 +74,8 @@
 	}
 	*/
 	function lazyLoad(options){
-		var item = {},
-		    totalItemNum =  options.totalItemNum,
+		var item = {},//判断对应的元素是否加载过
+		    totalItemNum =  options.totalItemNum,//总共需要加载的项目
 			loadedItemNum = 0,
 			loadFn = null,
 			$elem = options.$elem,
@@ -91,7 +94,7 @@
 			}
 		});
 
-		$elem.on(eventPrefix+'-loadedItems',function(){
+		$elem.on(eventPrefix+'-loadedItems',function(){//加载结束后移除事件
 			$elem.off(eventName,loadFn)
 		});
 	}	
@@ -384,7 +387,7 @@
 			num = index;
 			if($win.scrollTop() + $win.height()/2 < $(elem).offset().top){
 				num = index - 1;
-				return false;
+				return false;//退出each迭代
 			}
 		})
 		return num;
